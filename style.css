@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     background-color: black;
     color: white;
@@ -5,12 +9,14 @@ body {
 
 .calculator {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     font-size: 2rem;
 }
 
 .calculator__display {
     font-size: inherit;
+    padding: 10px;
 }
 
 .calculator__buttons {

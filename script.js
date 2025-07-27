@@ -29,5 +29,8 @@ const display = document.querySelector('.calculator__display');
 const buttons = document.querySelectorAll('button');
 
 buttons.forEach(button => button.addEventListener('click', (e) => {
-    display.textContent += e.value;
+    value = e.target.value;
+
+    if (value === 'clear') display.textContent = '';
+    else display.textContent += value;
 }));
