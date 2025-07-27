@@ -24,3 +24,10 @@ function operate(num1, num2, operator) {
     if (operator === '*') return multiply(num1, num2);
     if (operator === '/') return divide(num1, num2);
 }
+
+const display = document.querySelector('.calculator__display');
+const buttons = document.querySelectorAll('button');
+
+buttons.forEach(button => button.addEventListener('click', (e) => {
+    display.textContent += e.value;
+}));
