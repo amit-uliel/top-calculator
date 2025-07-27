@@ -2,3 +2,23 @@ body {
     background-color: black;
     color: white;
 }
+
+.calculator {
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.calculator__display {
+    font-size: inherit;
+}
+
+.calculator__buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+.calculator__buttons button {
+    font-size: inherit;
+}
