@@ -1,3 +1,4 @@
+const OPERATORS = ['+','-','*','/'];
 let num1 = '';
 let num2 = '';
 let operator = null;
@@ -16,6 +17,51 @@ numberButtons.forEach(button => button.addEventListener('click', numberClick));
 operatorButtons.forEach(button => button.addEventListener('click', operatorClick));
 equalsButton.addEventListener('click', equalsClick);
 clearButton.addEventListener('click', clearClick);
+
+// keyboard support
+document.addEventListener('keydown', e => {
+    
+    let key = e.key;
+
+    if (key >= '0' && key <= '9') { // key number
+        if (isResultDisplayed) {
+            clearClick();
+        }
+
+        if (shouldReset) {
+            display.textContent = '';
+            shouldReset = !shouldReset;
+        }
+
+        if (isNum1Turn) {
+            num1 += key;
+            num1 = parseFloat(num1);
+        } else {
+            num2 += key;
+            num2 = parseFloat(num2);
+        }
+        display.textContent += key;
+    } else if (OPERATORS.includes(key)) { // key operator
+        if (num1 === '') return;
+
+        if (operator !== null) {
+            equalsClick();
+        }
+        
+        isResultDisplayed = false;
+        operator = key;
+        display.textContent = num1 + operator;
+        shouldReset = true;
+        isNum1Turn = false;
+    } else if (key === 'Enter' || key === '=') { // key equals
+        equalsClick();
+    } else if (key === 'c') { // key clear
+        clearClick();
+    }
+
+    console.log(key);
+});
+
 
 // click handlers
 function numberClick(e) {
