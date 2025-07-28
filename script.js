@@ -13,6 +13,7 @@ const operatorButtons = document.querySelectorAll('.operator');
 const equalsButton = document.querySelector('.equals');
 const clearButton = document.querySelector('.clear');
 const dotButton = document.querySelector('.dot');
+const deleteButton = document.querySelector('.delete');
 
 // add event listeners
 numberButtons.forEach(button => button.addEventListener('click', numberClick));
@@ -20,6 +21,7 @@ operatorButtons.forEach(button => button.addEventListener('click', operatorClick
 equalsButton.addEventListener('click', equalsClick);
 clearButton.addEventListener('click', clearClick);
 dotButton.addEventListener('click', dotClick);
+deleteButton.addEventListener('click', deleteClick);
 
 // keyboard support
 document.addEventListener('keydown', e => {
@@ -62,16 +64,9 @@ document.addEventListener('keydown', e => {
     } else if (key === 'c') { // key clear
         clearClick();
     } else if (key === '.') { // key dot
-        if (!hasDot && isNum1Turn && num1 !== '') {
-            num1 += key;
-            hasDot = true;
-        } else if (!hasDot && num2 !== '') {
-            num2 += key;
-            hasDot = true;
-        } else {
-            return;
-        }
-        display.textContent += key;
+        dotClick();
+    } else if (key === 'Backspace') { // backspace
+        deleteClick();
     }
 
     console.log(key);
@@ -140,8 +135,8 @@ function clearClick() {
     hasDot = false;
 }
 
-function dotClick(e) {
-    let key = e.target.value;
+function dotClick() {
+    let key = '.';
     if (!hasDot && isNum1Turn && num1 !== '') {
         num1 += key;
         hasDot = true;
@@ -153,6 +148,30 @@ function dotClick(e) {
     }
 
     display.textContent += key;
+}
+
+function deleteClick() {
+    if (isNum1Turn && num1 !== '') {
+        num1 = num1.toString();
+        let deletedChar = num1.charAt(num1.length - 1);
+        num1 = num1.slice(0, -1);
+        num1 = num1 === '' ? '' : parseFloat(num1);
+
+        if (deletedChar === '.') {
+            hasDot = false;
+        }
+        display.textContent = display.textContent.slice(0,-1);
+    } else if (num2 !== '') {
+        num2 = num2.toString();
+        let deletedChar = num2.charAt(num2.length - 1);
+        num2 = num2.slice(0, -1);
+        num2 = num2 === '' ? '' : parseFloat(num2);
+
+        if (deletedChar === '.') {
+            hasDot = false;
+        }
+        display.textContent = display.textContent.slice(0,-1);
+    }
 }
 
 // math functions
