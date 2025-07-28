@@ -5,18 +5,21 @@ let operator = null;
 let isNum1Turn = true;
 let shouldReset = false;
 let isResultDisplayed = false;
+let hasDot = false;
 
 const display = document.querySelector('.calculator__display');
 const numberButtons = document.querySelectorAll('.number');
 const operatorButtons = document.querySelectorAll('.operator');
 const equalsButton = document.querySelector('.equals');
 const clearButton = document.querySelector('.clear');
+const dotButton = document.querySelector('.dot');
 
 // add event listeners
 numberButtons.forEach(button => button.addEventListener('click', numberClick));
 operatorButtons.forEach(button => button.addEventListener('click', operatorClick));
 equalsButton.addEventListener('click', equalsClick);
 clearButton.addEventListener('click', clearClick);
+dotButton.addEventListener('click', dotClick);
 
 // keyboard support
 document.addEventListener('keydown', e => {
@@ -53,10 +56,22 @@ document.addEventListener('keydown', e => {
         display.textContent = num1 + operator;
         shouldReset = true;
         isNum1Turn = false;
+        hasDot = false;
     } else if (key === 'Enter' || key === '=') { // key equals
         equalsClick();
     } else if (key === 'c') { // key clear
         clearClick();
+    } else if (key === '.') { // key dot
+        if (!hasDot && isNum1Turn && num1 !== '') {
+            num1 += key;
+            hasDot = true;
+        } else if (!hasDot && num2 !== '') {
+            num2 += key;
+            hasDot = true;
+        } else {
+            return;
+        }
+        display.textContent += key;
     }
 
     console.log(key);
@@ -96,6 +111,7 @@ function operatorClick(e) {
     display.textContent = num1 + operator;
     shouldReset = true;
     isNum1Turn = false;
+    hasDot = false;
 }
 
 function equalsClick() {
@@ -110,7 +126,7 @@ function equalsClick() {
     shouldReset = true;
     display.textContent = result;
     isResultDisplayed = true;
-    return result;
+    hasDot = false;
 }
 
 function clearClick() {
@@ -121,6 +137,22 @@ function clearClick() {
     isNum1Turn = true;
     shouldReset = false;
     isResultDisplayed = false;
+    hasDot = false;
+}
+
+function dotClick(e) {
+    let key = e.target.value;
+    if (!hasDot && isNum1Turn && num1 !== '') {
+        num1 += key;
+        hasDot = true;
+    } else if (!hasDot && num2 !== '') {
+        num2 += key;
+        hasDot = true;
+    } else {
+        return;
+    }
+
+    display.textContent += key;
 }
 
 // math functions
